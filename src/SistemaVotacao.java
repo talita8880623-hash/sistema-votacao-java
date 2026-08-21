@@ -64,6 +64,7 @@ public class SistemaVotacao {
     }
 
     static int lerInteiro(String mensagem) {
+
         while (true) {
             System.out.print(mensagem);
 
@@ -117,6 +118,7 @@ public class SistemaVotacao {
                 boolean numeroRepetido = false;
 
                 for (int j = 0; j < i; j++) {
+
                     if (numerosCandidatos[j] == numero) {
                         numeroRepetido = true;
                         break;
@@ -155,5 +157,20 @@ public class SistemaVotacao {
         }
 
         System.out.println("\nCandidatos cadastrados com sucesso!");
+    }
+
+    static int buscarCandidato(int numero) {
+
+        int indiceEncontrado = -1;
+
+        for (int i = 0; i < quantidadeCandidatos; i++) {
+
+            if (numerosCandidatos[i] == numero) {
+                indiceEncontrado = i;
+                break;
+            }
+        }
+
+        return indiceEncontrado;
     }
 }
