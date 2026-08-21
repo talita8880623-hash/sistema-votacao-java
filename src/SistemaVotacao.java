@@ -118,7 +118,6 @@ public class SistemaVotacao {
                 boolean numeroRepetido = false;
 
                 for (int j = 0; j < i; j++) {
-
                     if (numerosCandidatos[j] == numero) {
                         numeroRepetido = true;
                         break;
@@ -172,5 +171,18 @@ public class SistemaVotacao {
         }
 
         return indiceEncontrado;
+    }
+
+    static void mostrarCandidatos() {
+
+        System.out.println("\nCandidatos disponíveis:");
+
+        for (int i = 0; i < quantidadeCandidatos; i++) {
+
+            System.out.println(
+                    numerosCandidatos[i] + " - "
+                            + nomesCandidatos[i]
+            );
+        }
     }
 }
