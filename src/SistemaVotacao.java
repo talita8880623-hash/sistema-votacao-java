@@ -31,8 +31,7 @@ public class SistemaVotacao {
             System.out.println("4 - Exibir matriz de votos");
             System.out.println("5 - Sair");
 
-            System.out.print("Opção: ");
-            opcao = scanner.nextInt();
+            opcao = lerInteiro("Opção: ");
 
             switch (opcao) {
                 case 1:
@@ -62,5 +61,20 @@ public class SistemaVotacao {
         } while (opcao != 5);
 
         scanner.close();
+    }
+
+    static int lerInteiro(String mensagem) {
+        while (true) {
+            System.out.print(mensagem);
+
+            if (scanner.hasNextInt()) {
+                int valor = scanner.nextInt();
+                scanner.nextLine();
+                return valor;
+            }
+
+            System.out.println("Entrada inválida. Digite um número.");
+            scanner.nextLine();
+        }
     }
 }
