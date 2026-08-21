@@ -15,7 +15,8 @@ public class SistemaVotacao {
     static int[][] votosPorTurma =
             new int[TOTAL_TURMAS][MAX_VOTANTES_POR_TURMA];
 
-    static int[] quantidadeVotosTurma = new int[TOTAL_TURMAS];
+    static int[] quantidadeVotosTurma =
+            new int[TOTAL_TURMAS];
 
     static int quantidadeCandidatos = 0;
 
@@ -34,20 +35,21 @@ public class SistemaVotacao {
             opcao = lerInteiro("Opção: ");
 
             switch (opcao) {
+
                 case 1:
                     cadastrarCandidatos();
                     break;
 
                 case 2:
-                    System.out.println("Votação selecionada.");
+                    iniciarVotacao();
                     break;
 
                 case 3:
-                    System.out.println("Resultado selecionado.");
+                    exibirResultado();
                     break;
 
                 case 4:
-                    System.out.println("Matriz selecionada.");
+                    exibirMatrizVotos();
                     break;
 
                 case 5:
@@ -66,15 +68,21 @@ public class SistemaVotacao {
     static int lerInteiro(String mensagem) {
 
         while (true) {
+
             System.out.print(mensagem);
 
             if (scanner.hasNextInt()) {
+
                 int valor = scanner.nextInt();
                 scanner.nextLine();
+
                 return valor;
             }
 
-            System.out.println("Entrada inválida. Digite um número.");
+            System.out.println(
+                    "Entrada inválida. Digite um número."
+            );
+
             scanner.nextLine();
         }
     }
@@ -82,52 +90,68 @@ public class SistemaVotacao {
     static void cadastrarCandidatos() {
 
         if (quantidadeCandidatos > 0) {
-            System.out.println("Os candidatos já foram cadastrados.");
+
+            System.out.println(
+                    "Os candidatos já foram cadastrados."
+            );
+
             return;
         }
 
         int quantidade;
 
         do {
+
             quantidade = lerInteiro(
                     "Quantidade de candidatos entre 1 e 5: "
             );
 
-            if (quantidade < 1 || quantidade > MAX_CANDIDATOS) {
+            if (quantidade < 1 ||
+                    quantidade > MAX_CANDIDATOS) {
+
                 System.out.println("Quantidade inválida.");
             }
 
-        } while (quantidade < 1 || quantidade > MAX_CANDIDATOS);
+        } while (quantidade < 1 ||
+                quantidade > MAX_CANDIDATOS);
 
         for (int i = 0; i < quantidade; i++) {
 
             int numero;
 
             while (true) {
+
                 numero = lerInteiro(
-                        "\nNúmero do candidato " + (i + 1) + ": "
+                        "\nNúmero do candidato "
+                                + (i + 1) + ": "
                 );
 
                 if (numero <= 0) {
+
                     System.out.println(
                             "O número deve ser maior que zero."
                     );
+
                     continue;
                 }
 
                 boolean numeroRepetido = false;
 
                 for (int j = 0; j < i; j++) {
+
                     if (numerosCandidatos[j] == numero) {
+
                         numeroRepetido = true;
                         break;
                     }
                 }
 
                 if (numeroRepetido) {
+
                     System.out.println(
                             "Esse número já está cadastrado."
                     );
+
                     continue;
                 }
 
@@ -137,10 +161,13 @@ public class SistemaVotacao {
             String nome;
 
             do {
+
                 System.out.print("Nome do candidato: ");
+
                 nome = scanner.nextLine().trim();
 
                 if (nome.isEmpty()) {
+
                     System.out.println(
                             "O nome não pode ficar vazio."
                     );
@@ -155,16 +182,21 @@ public class SistemaVotacao {
             quantidadeCandidatos++;
         }
 
-        System.out.println("\nCandidatos cadastrados com sucesso!");
+        System.out.println(
+                "\nCandidatos cadastrados com sucesso!"
+        );
     }
 
     static int buscarCandidato(int numero) {
 
         int indiceEncontrado = -1;
 
-        for (int i = 0; i < quantidadeCandidatos; i++) {
+        for (int i = 0;
+             i < quantidadeCandidatos;
+             i++) {
 
             if (numerosCandidatos[i] == numero) {
+
                 indiceEncontrado = i;
                 break;
             }
@@ -177,12 +209,170 @@ public class SistemaVotacao {
 
         System.out.println("\nCandidatos disponíveis:");
 
-        for (int i = 0; i < quantidadeCandidatos; i++) {
+        for (int i = 0;
+             i < quantidadeCandidatos;
+             i++) {
 
             System.out.println(
-                    numerosCandidatos[i] + " - "
+                    numerosCandidatos[i]
+                            + " - "
                             + nomesCandidatos[i]
             );
         }
+    }
+
+    static void iniciarVotacao() {
+
+        if (quantidadeCandidatos == 0) {
+
+            System.out.println(
+                    "Cadastre os candidatos antes de iniciar a votação."
+            );
+
+            return;
+        }
+
+        int turma;
+
+        do {
+
+            turma = lerInteiro(
+                    "Informe a turma de 1 a 3: "
+            );
+
+            if (turma < 1 ||
+                    turma > TOTAL_TURMAS) {
+
+                System.out.println("Turma inválida.");
+            }
+
+        } while (turma < 1 ||
+                turma > TOTAL_TURMAS);
+
+        int indiceTurma = turma - 1;
+
+        if (quantidadeVotosTurma[indiceTurma]
+                >= MAX_VOTANTES_POR_TURMA) {
+
+            System.out.println(
+                    "Essa turma já atingiu o limite de votantes."
+            );
+
+            return;
+        }
+
+        mostrarCandidatos();
+
+        System.out.println(
+                "\nDigite 0 para encerrar a votação desta turma."
+        );
+
+        while (quantidadeVotosTurma[indiceTurma]
+                < MAX_VOTANTES_POR_TURMA) {
+
+            int numero = lerInteiro(
+                    "\nNúmero do candidato: "
+            );
+
+            if (numero == 0) {
+
+                System.out.println(
+                        "Votação encerrada."
+                );
+
+                break;
+            }
+
+            int indiceCandidato =
+                    buscarCandidato(numero);
+
+            if (indiceCandidato == -1) {
+
+                System.out.println(
+                        "Candidato inexistente. Tente novamente."
+                );
+
+                continue;
+            }
+
+            int posicaoVoto =
+                    quantidadeVotosTurma[indiceTurma];
+
+            votosPorTurma[indiceTurma][posicaoVoto]
+                    = numero;
+
+            quantidadeVotosTurma[indiceTurma]++;
+
+            votosCandidatos[indiceCandidato]++;
+
+            System.out.println(
+                    "Voto registrado com sucesso."
+            );
+        }
+
+        if (quantidadeVotosTurma[indiceTurma]
+                == MAX_VOTANTES_POR_TURMA) {
+
+            System.out.println(
+                    "Limite de 10 votantes atingido."
+            );
+        }
+    }
+
+    static void exibirMatrizVotos() {
+
+        System.out.println(
+                "\n===== MATRIZ DE VOTOS ====="
+        );
+
+        for (int i = 0; i < TOTAL_TURMAS; i++) {
+
+            System.out.print(
+                    "Turma " + (i + 1) + ": "
+            );
+
+            for (int j = 0;
+                 j < MAX_VOTANTES_POR_TURMA;
+                 j++) {
+
+                if (j < quantidadeVotosTurma[i]) {
+
+                    System.out.print(
+                            votosPorTurma[i][j] + " "
+                    );
+
+                } else {
+
+                    System.out.print("- ");
+                }
+            }
+
+            System.out.println();
+        }
+    }
+
+    static void exibirResultado() {
+
+        int totalVotos = 0;
+
+        for (int i = 0;
+             i < quantidadeCandidatos;
+             i++) {
+
+            totalVotos += votosCandidatos[i];
+        }
+
+        if (totalVotos == 0) {
+
+            System.out.println(
+                    "Nenhum voto foi registrado."
+            );
+
+            return;
+        }
+
+        System.out.println(
+                "\nTotal de votos: " + totalVotos
+        );
     }
 }
