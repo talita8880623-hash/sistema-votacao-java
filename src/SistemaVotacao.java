@@ -355,6 +355,7 @@ public class SistemaVotacao {
 
         int totalVotos = 0;
 
+        // Etapa 14 - calcular total de votos
         for (int i = 0;
              i < quantidadeCandidatos;
              i++) {
@@ -372,7 +373,93 @@ public class SistemaVotacao {
         }
 
         System.out.println(
-                "\nTotal de votos: " + totalVotos
+                "\n===== RESULTADO ====="
+        );
+
+        System.out.println(
+                "Total de votos: " + totalVotos
+        );
+
+        // Etapa 15 - calcular percentual de cada candidato
+        for (int i = 0;
+             i < quantidadeCandidatos;
+             i++) {
+
+            double percentual =
+                    (votosCandidatos[i] * 100.0)
+                            / totalVotos;
+
+            System.out.printf(
+                    "%s -> %d voto(s) (%.2f%%)%n",
+                    nomesCandidatos[i],
+                    votosCandidatos[i],
+                    percentual
+            );
+        }
+
+        // Etapa 16 - encontrar a maior quantidade de votos
+        int maiorQuantidadeVotos =
+                votosCandidatos[0];
+
+        for (int i = 1;
+             i < quantidadeCandidatos;
+             i++) {
+
+            if (votosCandidatos[i]
+                    > maiorQuantidadeVotos) {
+
+                maiorQuantidadeVotos =
+                        votosCandidatos[i];
+            }
+        }
+
+        // Etapa 17 - verificar vencedor ou empate
+        int quantidadeVencedores = 0;
+
+        for (int i = 0;
+             i < quantidadeCandidatos;
+             i++) {
+
+            if (votosCandidatos[i]
+                    == maiorQuantidadeVotos) {
+
+                quantidadeVencedores++;
+            }
+        }
+
+        if (quantidadeVencedores == 1) {
+
+            System.out.print("Vencedor: ");
+
+        } else {
+
+            System.out.print("Empate entre: ");
+        }
+
+        boolean primeiroNome = true;
+
+        for (int i = 0;
+             i < quantidadeCandidatos;
+             i++) {
+
+            if (votosCandidatos[i]
+                    == maiorQuantidadeVotos) {
+
+                if (!primeiroNome) {
+                    System.out.print(", ");
+                }
+
+                System.out.print(
+                        nomesCandidatos[i]
+                );
+
+                primeiroNome = false;
+            }
+        }
+
+        System.out.println(
+                " com " + maiorQuantidadeVotos
+                        + " voto(s)."
         );
     }
 }
