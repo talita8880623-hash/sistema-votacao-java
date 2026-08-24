@@ -380,7 +380,7 @@ public class SistemaVotacao {
                 "Total de votos: " + totalVotos
         );
 
-        // Etapa 15 - calcular percentual de cada candidato
+        // Etapa 15 - calcular percentual
         for (int i = 0;
              i < quantidadeCandidatos;
              i++) {
@@ -397,7 +397,7 @@ public class SistemaVotacao {
             );
         }
 
-        // Etapa 16 - encontrar a maior quantidade de votos
+        // Etapa 16 - encontrar maior quantidade de votos
         int maiorQuantidadeVotos =
                 votosCandidatos[0];
 
